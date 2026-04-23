@@ -151,7 +151,7 @@
 
         .stats {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 15px;
             margin-bottom: 25px;
         }
@@ -246,6 +246,22 @@
                 <div class="stat-label">단어 개수</div>
                 <div class="stat-value" id="wordCount">0</div>
             </div>
+            <div class="stat-box">
+                <div class="stat-label">문단 개수</div>
+                <div class="stat-value" id="paragraphCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">문장 개수</div>
+                <div class="stat-value" id="sentenceCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">문단당 문장</div>
+                <div class="stat-value" id="avgSentences">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">문장당 단어</div>
+                <div class="stat-value" id="avgWords">0</div>
+            </div>
         </div>
 
         <button onclick="clearText()">초기화</button>
@@ -262,6 +278,10 @@
         const periodCount = document.getElementById('periodCount');
         const charCount = document.getElementById('charCount');
         const wordCount = document.getElementById('wordCount');
+        const paragraphCount = document.getElementById('paragraphCount');
+        const sentenceCount = document.getElementById('sentenceCount');
+        const avgSentences = document.getElementById('avgSentences');
+        const avgWords = document.getElementById('avgWords');
 
         function updateCount() {
             const text = textInput.value;
@@ -282,6 +302,24 @@
                 ? text.trim().split(/\s+/).length 
                 : 0;
             wordCount.textContent = words;
+            
+            // 문단 개수 (2줄 이상 띄어진 곳으로 구분)
+            const paragraphs = text.trim().length > 0
+                ? text.trim().split(/\n\s*\n+/).filter(p => p.trim().length > 0).length
+                : 0;
+            paragraphCount.textContent = paragraphs;
+            
+            // 문장 개수 (온점 기준)
+            const sentences = periods;
+            sentenceCount.textContent = sentences;
+            
+            // 문단당 평균 문장 수
+            const avgSent = paragraphs > 0 ? (sentences / paragraphs).toFixed(1) : 0;
+            avgSentences.textContent = avgSent;
+            
+            // 문장당 평균 단어 수
+            const avgWord = sentences > 0 ? (words / sentences).toFixed(1) : 0;
+            avgWords.textContent = avgWord;
         }
 
         function clearText() {
