@@ -315,7 +315,7 @@
             
             // HTML 제거 옵션 활성화 시
             if (removeHtml.checked) {
-                text = text.replace(/<[^>]*>/g, '');
+                text = text.replace(/<[^>]*>[\s\S]*?<\/[^>]*>|<[^>]*\/>/g, '');
             }
             
             // 쉼표 개수 세기
